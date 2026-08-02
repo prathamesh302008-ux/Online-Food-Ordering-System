@@ -1,0 +1,397 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Order #{{ order.id }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- Heading -->
+
+    <div class="row mb-4">
+
+        <div class="col-lg-8">
+
+            <h2 class="fw-bold">
+
+                <i class="fa-solid fa-bag-shopping text-warning"></i>
+
+                Order Details
+
+            </h2>
+
+            <p class="text-muted">
+
+                Order ID :
+                <strong>#{{ order.id }}</strong>
+
+            </p>
+
+        </div>
+
+        <div class="col-lg-4 text-lg-end">
+
+            {% if order.status == "Pending" %}
+
+                <span class="badge bg-warning fs-6 p-2">
+
+                    {{ order.status }}
+
+                </span>
+
+            {% elif order.status == "Confirmed" %}
+
+                <span class="badge bg-primary fs-6 p-2">
+
+                    {{ order.status }}
+
+                </span>
+
+            {% elif order.status == "Preparing" %}
+
+                <span class="badge bg-info fs-6 p-2">
+
+                    {{ order.status }}
+
+                </span>
+
+            {% elif order.status == "Out For Delivery" %}
+
+                <span class="badge bg-dark fs-6 p-2">
+
+                    {{ order.status }}
+
+                </span>
+
+            {% elif order.status == "Delivered" %}
+
+                <span class="badge bg-success fs-6 p-2">
+
+                    {{ order.status }}
+
+                </span>
+
+            {% else %}
+
+                <span class="badge bg-danger fs-6 p-2">
+
+                    {{ order.status }}
+
+                </span>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <!-- LEFT -->
+
+        <div class="col-lg-8">
+
+            <div class="card shadow border-0 mb-4">
+
+                <div class="card-header bg-white">
+
+                    <h4 class="mb-0">
+
+                        Ordered Items
+
+                    </h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    {% for item in order_items %}
+
+                    <div class="row align-items-center mb-4">
+
+                        <div class="col-md-2">
+
+                            {% if item.food.image %}
+
+                            <img
+                                src="{{ item.food.image.url }}"
+                                class="img-fluid rounded"
+                                style="height:90px;width:90px;object-fit:cover;">
+
+                            {% else %}
+
+                            <img
+                                src="{% static 'images/pizza.jpg' %}"
+                                class="img-fluid rounded"
+                                style="height:90px;width:90px;object-fit:cover;">
+
+                            {% endif %}
+
+                        </div>
+
+                        <div class="col-md-5">
+
+                            <h5>
+
+                                {{ item.food.name }}
+
+                            </h5>
+
+                            <small class="text-muted">
+
+                                {{ item.food.restaurant.name }}
+
+                            </small>
+
+                        </div>
+
+                        <div class="col-md-2 text-center">
+
+                            Qty
+
+                            <br>
+
+                            <strong>
+
+                                {{ item.quantity }}
+
+                            </strong>
+
+                        </div>
+
+                        <div class="col-md-3 text-end">
+
+                            <h5 class="text-success">
+
+                                ₹{{ item.total_price }}
+
+                            </h5>
+
+                        </div>
+
+                    </div>
+
+                    <hr>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            <!-- Delivery Address -->
+
+            <div class="card shadow border-0">
+
+                <div class="card-header bg-white">
+
+                    <h4>
+
+                        Delivery Address
+
+                    </h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    <i class="fa-solid fa-location-dot text-danger"></i>
+
+                    {{ order.delivery_address }}
+
+                    <br><br>
+
+                    <strong>
+
+                        Phone :
+
+                    </strong>
+
+                    {{ order.phone }}
+
+                    <br>
+
+                    <strong>
+
+                        Email :
+
+                    </strong>
+
+                    {{ order.email }}
+
+                    {% if order.special_instructions %}
+
+                    <hr>
+
+                    <strong>
+
+                        Instructions
+
+                    </strong>
+
+                    <p>
+
+                        {{ order.special_instructions }}
+
+                    </p>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+
+        <div class="col-lg-4">
+
+            <div class="card shadow border-0 sticky-top" style="top:90px;">
+
+                <div class="card-header bg-warning">
+
+                    <h4 class="mb-0">
+
+                        Order Summary
+
+                    </h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <span>
+
+                            Subtotal
+
+                        </span>
+
+                        <strong>
+
+                            ₹{{ subtotal }}
+
+                        </strong>
+
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between">
+
+                        <span>
+
+                            Delivery
+
+                        </span>
+
+                        <strong>
+
+                            ₹{{ delivery_charge }}
+
+                        </strong>
+
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between">
+
+                        <span>
+
+                            Discount
+
+                        </span>
+
+                        <strong class="text-success">
+
+                            - ₹{{ discount_amount }}
+
+                        </strong>
+
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between">
+
+                        <h4>
+
+                            Total
+
+                        </h4>
+
+                        <h4 class="text-success">
+
+                            ₹{{ total }}
+
+                        </h4>
+
+                    </div>
+
+                    <hr>
+
+                    <div class="d-grid gap-3">
+
+                        <a
+                            href="{% url 'track_order' order.id %}"
+                            class="btn btn-primary btn-lg">
+
+                            <i class="fa-solid fa-truck"></i>
+
+                            Track Order
+
+                        </a>
+
+                        {% if order.status != "Delivered" and order.status != "Cancelled" %}
+
+                        <a
+                            href="{% url 'cancel_order' order.id %}"
+                            class="btn btn-danger">
+
+                            <i class="fa-solid fa-ban"></i>
+
+                            Cancel Order
+
+                        </a>
+
+                        {% endif %}
+
+                        <a
+                            href="{% url 'my_orders' %}"
+                            class="btn btn-outline-dark">
+
+                            <i class="fa-solid fa-arrow-left"></i>
+
+                            Back To Orders
+
+                        </a>
+
+                        <a
+                            href="{% url 'menu' %}"
+                            class="btn btn-warning">
+
+                            <i class="fa-solid fa-utensils"></i>
+
+                            Order Again
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

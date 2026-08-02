@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+{{ restaurant.name }}
+{% endblock %}
+
+{% block content %}
+
+<section class="py-5 bg-light">
+
+    <div class="container">
+
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+            {% if restaurant.cover_image %}
+                <img src="{{ restaurant.cover_image.url }}"
+                     class="w-100"
+                     style="height:350px;object-fit:cover;">
+            {% else %}
+                <img src="{% static 'images/restaurant.jpg' %}"
+                     class="w-100"
+                     style="height:350px;object-fit:cover;">
+            {% endif %}
+
+            <div class="card-body p-5">
+
+                <div class="row">
+
+                    <div class="col-md-3 text-center">
+
+                        {% if restaurant.logo %}
+                            <img src="{{ restaurant.logo.url }}"
+                                 class="rounded-circle border shadow"
+                                 width="170"
+                                 height="170"
+                                 style="object-fit:cover;">
+                        {% endif %}
+
+                    </div>
+
+                    <div class="col-md-9">
+
+                        <h2 class="fw-bold">
+
+                            {{ restaurant.name }}
+
+                        </h2>
+
+                        <p class="text-muted">
+
+                            {{ restaurant.cuisine }}
+
+                        </p>
+
+                        <p>
+
+                            {{ restaurant.description }}
+
+                        </p>
+
+                        <hr>
+
+                        <div class="row text-center">
+
+                            <div class="col-md-3">
+
+                                <h4 class="text-success">
+
+                                    ⭐ {{ restaurant.rating }}
+
+                                </h4>
+
+                                <small>Rating</small>
+
+                            </div>
+
+                            <div class="col-md-3">
+
+                                <h4 class="text-primary">
+
+                                    🚚 {{ restaurant.delivery_time }}
+
+                                </h4>
+
+                                <small>Delivery Time</small>
+
+                            </div>
+
+                            <div class="col-md-3">
+
+                                <h4 class="text-danger">
+
+                                    ₹{{ restaurant.delivery_fee }}
+
+                                </h4>
+
+                                <small>Delivery Fee</small>
+
+                            </div>
+
+                            <div class="col-md-3">
+
+                                <h4 class="text-warning">
+
+                                    ₹{{ restaurant.minimum_order }}
+
+                                </h4>
+
+                                <small>Minimum Order</small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <hr class="my-5">
+
+                <div class="row">
+
+                    <div class="col-md-6">
+
+                        <h4>
+
+                            📍 Address
+
+                        </h4>
+
+                        <p>
+
+                            {{ restaurant.address }}
+
+                        </p>
+
+                        <p>
+
+                            {{ restaurant.city }},
+                            {{ restaurant.state }}
+                            -
+                            {{ restaurant.pincode }}
+
+                        </p>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <h4>
+
+                            📞 Contact
+
+                        </h4>
+
+                        <p>
+
+                            {{ restaurant.phone }}
+
+                        </p>
+
+                        <p>
+
+                            {{ restaurant.email }}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+
+                        <h5>
+
+                            🕒 Opening Time
+
+                        </h5>
+
+                        {{ restaurant.opening_time }}
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <h5>
+
+                            🌙 Closing Time
+
+                        </h5>
+
+                        {{ restaurant.closing_time }}
+
+                    </div>
+
+                </div>
+
+                <div class="text-center mt-5">
+
+                    <a href="{% url 'menu' %}"
+                       class="btn btn-warning btn-lg px-5">
+
+                        🍔 Order Food
+
+                    </a>
+
+                    <a href="{% url 'restaurant_list' %}"
+                       class="btn btn-outline-dark btn-lg px-5">
+
+                        ← Back
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

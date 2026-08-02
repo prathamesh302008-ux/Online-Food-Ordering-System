@@ -1,0 +1,441 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Food Menu
+{% endblock %}
+
+{% block content %}
+
+<section class="menu-banner">
+
+    <div class="container">
+
+        <h1>Explore Our Delicious Menu</h1>
+
+        <p>
+            Fresh Food • Fast Delivery • Best Price
+        </p>
+
+    </div>
+
+</section>
+
+<section class="menu-section">
+
+<div class="container">
+
+<div class="row">
+
+<!-- Category Sidebar -->
+
+<div class="col-lg-3">
+
+<div class="category-box">
+
+<h3>
+
+Categories
+
+</h3>
+
+<ul>
+
+<li>
+
+<a href="/menu/">
+
+All Foods
+
+</a>
+
+</li>
+
+{% for category in categories %}
+
+<li>
+
+<a href="/menu/category/{{ category.id }}/">
+
+{{ category.name }}
+
+</a>
+
+</li>
+
+{% endfor %}
+
+</ul>
+
+</div>
+
+</div>
+
+<!-- Food List -->
+
+<div class="col-lg-9">
+
+<div class="row">
+
+{% for food in foods %}
+
+<div class="col-lg-4 col-md-6 mb-4">
+
+<div class="food-card">
+
+{% if food.image %}
+
+<img
+src="{{ food.image.url }}"
+alt="{{ food.name }}">
+
+{% else %}
+
+<img
+src="{% static 'images/no-image.jpg' %}"
+alt="Food">
+
+{% endif %}
+
+<div class="food-info">
+
+<h4>
+
+{{ food.name }}
+
+</h4>
+
+<p>
+
+{{ food.restaurant.name }}
+
+</p>
+
+<p>
+
+{{ food.description|truncatewords:10 }}
+
+</p>
+
+<h3 class="price">
+
+{% if food.discount_price %}
+
+<span class="text-danger">
+
+₹{{ food.discount_price }}
+
+</span>
+
+<del>
+
+₹{{ food.price }}
+
+</del>
+
+{% else %}
+
+₹{{ food.price }}
+
+{% endif %}
+
+</h3>
+
+<p class="time">
+
+🕒 {{ food.preparation_time }} Minutes
+
+</p>
+
+<div class="food-buttons">
+
+<a
+href="/menu/food/{{ food.id }}/"
+class="btn btn-dark">
+
+View Details
+
+</a>
+
+<a
+href="/cart/add/{{ food.id }}/"
+class="btn btn-warning">
+
+Add To Cart
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% empty %}
+
+<div class="col-12">
+
+<div class="alert alert-warning text-center">
+
+<h3>
+
+No Food Available
+
+</h3>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- Featured Banner -->
+
+<section class="featured-banner py-5 bg-light">
+
+    <div class="container text-center">
+
+        <h2 class="mb-3">
+
+            Today's Special Offers
+
+        </h2>
+
+        <p class="mb-4">
+
+            Get up to 40% OFF on selected food items.
+
+        </p>
+
+        <a href="/menu/" class="btn btn-danger btn-lg">
+
+            Order Now
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- Best Sellers -->
+
+<section class="best-sellers py-5">
+
+    <div class="container">
+
+        <h2 class="text-center mb-5">
+
+            Best Sellers
+
+        </h2>
+
+        <div class="row">
+
+            {% for food in foods|slice:":3" %}
+
+            <div class="col-lg-4 mb-4">
+
+                <div class="card shadow h-100">
+
+                    {% if food.image %}
+                        <img src="{{ food.image.url }}" class="card-img-top" height="220">
+                    {% else %}
+                        <img src="{% static 'images/no-image.jpg' %}" class="card-img-top" height="220">
+                    {% endif %}
+
+                    <div class="card-body">
+
+                        <h4>
+
+                            {{ food.name }}
+
+                        </h4>
+
+                        <p>
+
+                            {{ food.restaurant.name }}
+
+                        </p>
+
+                        <h5 class="text-danger">
+
+                            ₹{{ food.price }}
+
+                        </h5>
+
+                        <a
+                        href="/menu/food/{{ food.id }}/"
+                        class="btn btn-dark w-100">
+
+                        View Details
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- Call To Action -->
+
+<section class="cta-section bg-dark text-white py-5">
+
+    <div class="container text-center">
+
+        <h2>
+
+            Hungry?
+
+        </h2>
+
+        <p>
+
+            Delicious food is just one click away.
+
+        </p>
+
+        <a
+        href="/menu/"
+        class="btn btn-warning btn-lg">
+
+        Explore More Foods
+
+        </a>
+
+    </div>
+
+</section>
+
+<!-- Newsletter -->
+
+<section class="newsletter py-5">
+
+    <div class="container text-center">
+
+        <h2>
+
+            Subscribe Our Newsletter
+
+        </h2>
+
+        <p>
+
+            Get the latest offers and discounts directly in your inbox.
+
+        </p>
+
+        <form class="newsletter-form mt-4">
+
+            <input
+            type="email"
+            class="form-control"
+            placeholder="Enter your email">
+
+            <button
+            type="submit"
+            class="btn btn-warning">
+
+            Subscribe
+
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+<!-- Download App -->
+
+<section class="download-app bg-light py-5">
+
+    <div class="container text-center">
+
+        <h2>
+
+            Download FoodHub App
+
+        </h2>
+
+        <p>
+
+            Order food anytime, anywhere using our mobile application.
+
+        </p>
+
+        <div class="mt-4">
+
+            <a href="#" class="btn btn-dark btn-lg me-3">
+
+                Android App
+
+            </a>
+
+            <a href="#" class="btn btn-success btn-lg">
+
+                iPhone App
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- Contact CTA -->
+
+<section class="contact-cta bg-danger text-white py-5">
+
+    <div class="container text-center">
+
+        <h2>
+
+            Need Help?
+
+        </h2>
+
+        <p>
+
+            Our support team is available 24×7.
+
+        </p>
+
+        <a
+        href="/contact/"
+        class="btn btn-light btn-lg">
+
+        Contact Us
+
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,587 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Checkout | FoodHub
+{% endblock %}
+
+{% block content %}
+
+<section class="checkout-section py-5">
+
+    <div class="container">
+
+        <div class="row mb-5">
+
+            <div class="col-12 text-center">
+
+                <h2 class="fw-bold">
+
+                    <i class="fa-solid fa-credit-card"></i>
+
+                    Secure Checkout
+
+                </h2>
+
+                <p class="text-muted">
+
+                    Complete your order by selecting your delivery address and payment method.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <form method="POST" action="{% url 'place_order' %}">
+
+            {% csrf_token %}
+
+            <div class="row">
+
+                <!-- Left Side -->
+
+                <div class="col-lg-8">
+
+                    <!-- Delivery Address -->
+
+                    <div class="card shadow border-0 mb-4">
+
+                        <div class="card-header bg-warning text-dark">
+
+                            <h4 class="mb-0">
+
+                                <i class="fa-solid fa-location-dot"></i>
+
+                                Delivery Address
+
+                            </h4>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            {% if addresses %}
+
+                                {% for address in addresses %}
+
+                                <div class="form-check border rounded p-3 mb-3">
+
+                                    <input
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="address_id"
+                                        value="{{ address.id }}"
+                                        id="address{{ address.id }}"
+                                        {% if forloop.first %}checked{% endif %}
+                                    >
+
+                                    <label
+                                        class="form-check-label w-100"
+                                        for="address{{ address.id }}"
+                                    >
+
+                                        <h5 class="mb-2">
+
+                                            {{ address.full_name }}
+
+                                        </h5>
+
+                                        <p class="mb-1">
+
+                                            {{ address.address_line1 }}
+
+                                        </p>
+
+                                        {% if address.address_line2 %}
+
+                                        <p class="mb-1">
+
+                                            {{ address.address_line2 }}
+
+                                        </p>
+
+                                        {% endif %}
+
+                                        <p class="mb-1">
+
+                                            {{ address.city }},
+                                            {{ address.state }}
+
+                                            -
+
+                                            {{ address.pincode }}
+
+                                        </p>
+
+                                        <p class="mb-1">
+
+                                            <i class="fa-solid fa-phone"></i>
+
+                                            {{ address.phone }}
+
+                                        </p>
+
+                                        <p class="mb-2">
+
+                                            <i class="fa-solid fa-envelope"></i>
+
+                                            {{ address.email }}
+
+                                        </p>
+
+                                        {% if address.is_default %}
+
+                                        <span class="badge bg-success">
+
+                                            Default Address
+
+                                        </span>
+
+                                        {% endif %}
+
+                                        <a
+                                            href="{% url 'edit_address' address.id %}"
+                                            class="btn btn-sm btn-outline-primary float-end"
+                                        >
+
+                                            <i class="fa-solid fa-pen"></i>
+
+                                            Edit
+
+                                        </a>
+
+                                    </label>
+
+                                </div>
+
+                                {% endfor %}
+
+                            {% else %}
+
+                                <div class="alert alert-warning">
+
+                                    No delivery address found.
+
+                                    Please add your address first.
+
+                                </div>
+
+                            {% endif %}
+
+                            <div class="mt-3">
+
+                                <a
+                                    href="{% url 'add_address' %}"
+                                    class="btn btn-success"
+                                >
+
+                                    <i class="fa-solid fa-plus"></i>
+
+                                    Add New Address
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                                        <!-- Order Summary -->
+
+                    <div class="card shadow border-0 mb-4">
+
+                        <div class="card-header bg-dark text-white">
+
+                            <h4 class="mb-0">
+
+                                <i class="fa-solid fa-bag-shopping"></i>
+
+                                Order Summary
+
+                            </h4>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            {% for item in cart_items %}
+
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                                <div class="d-flex align-items-center">
+
+                                    {% if item.food.image %}
+
+                                        <img
+                                            src="{{ item.food.image.url }}"
+                                            style="width:70px;height:70px;object-fit:cover;border-radius:10px;"
+                                        >
+
+                                    {% else %}
+
+                                        <img
+                                            src="{% static 'images/pizza.jpg' %}"
+                                            style="width:70px;height:70px;object-fit:cover;border-radius:10px;"
+                                        >
+
+                                    {% endif %}
+
+                                    <div class="ms-3">
+
+                                        <h6 class="mb-1">
+
+                                            {{ item.food.name }}
+
+                                        </h6>
+
+                                        <small class="text-muted">
+
+                                            Qty : {{ item.quantity }}
+
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                                <strong>
+
+                                    ₹{{ item.total_price }}
+
+                                </strong>
+
+                            </div>
+
+                            <hr>
+
+                            {% endfor %}
+
+                            <div class="d-flex justify-content-between">
+
+                                <span>
+
+                                    Subtotal
+
+                                </span>
+
+                                <strong>
+
+                                    ₹{{ subtotal }}
+
+                                </strong>
+
+                            </div>
+
+                            <div class="d-flex justify-content-between mt-2">
+
+                                <span>
+
+                                    Delivery Charge
+
+                                </span>
+
+                                <strong>
+
+                                    ₹{{ delivery_charge }}
+
+                                </strong>
+
+                            </div>
+
+                            <div class="d-flex justify-content-between mt-2">
+
+                                <span>
+
+                                    Discount
+
+                                </span>
+
+                                <strong class="text-success">
+
+                                    - ₹{{ discount }}
+
+                                </strong>
+
+                            </div>
+
+                            <hr>
+
+                            <div class="d-flex justify-content-between">
+
+                                <h4>
+
+                                    Grand Total
+
+                                </h4>
+
+                                <h4 class="text-success">
+
+                                    ₹{{ total }}
+
+                                </h4>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Payment Method -->
+
+                    <div class="card shadow border-0 mb-4">
+
+                        <div class="card-header bg-primary text-white">
+
+                            <h4 class="mb-0">
+
+                                <i class="fa-solid fa-wallet"></i>
+
+                                Payment Method
+
+                            </h4>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="form-check mb-3">
+
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="payment_method"
+                                    value="COD"
+                                    checked
+                                >
+
+                                <label class="form-check-label">
+
+                                    Cash On Delivery
+
+                                </label>
+
+                            </div>
+
+                            <div class="form-check mb-3">
+
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="payment_method"
+                                    value="UPI"
+                                >
+
+                                <label class="form-check-label">
+
+                                    UPI Payment
+
+                                </label>
+
+                            </div>
+
+                            <div class="form-check mb-3">
+
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="payment_method"
+                                    value="CARD"
+                                >
+
+                                <label class="form-check-label">
+
+                                    Credit / Debit Card
+
+                                </label>
+
+                            </div>
+
+                            <div class="form-check">
+
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="payment_method"
+                                    value="NETBANKING"
+                                >
+
+                                <label class="form-check-label">
+
+                                    Net Banking
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Special Instructions -->
+
+                    <div class="card shadow border-0">
+
+                        <div class="card-header bg-secondary text-white">
+
+                            <h4 class="mb-0">
+
+                                <i class="fa-solid fa-note-sticky"></i>
+
+                                Special Instructions
+
+                            </h4>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <textarea
+                                name="special_instructions"
+                                class="form-control"
+                                rows="5"
+                                placeholder="Write any delivery instructions here..."
+                            ></textarea>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                                <!-- Right Side -->
+
+                <div class="col-lg-4">
+
+                    <div class="card shadow border-0 sticky-top" style="top:100px;">
+
+                        <div class="card-header bg-success text-white">
+
+                            <h4 class="mb-0">
+
+                                <i class="fa-solid fa-receipt"></i>
+
+                                Final Payment
+
+                            </h4>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between mb-3">
+
+                                <span>Subtotal</span>
+
+                                <strong>₹{{ subtotal }}</strong>
+
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-3">
+
+                                <span>Delivery Charge</span>
+
+                                <strong>₹{{ delivery_charge }}</strong>
+
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-3">
+
+                                <span>Discount</span>
+
+                                <strong class="text-success">
+
+                                    - ₹{{ discount }}
+
+                                </strong>
+
+                            </div>
+
+                            <hr>
+
+                            <div class="d-flex justify-content-between">
+
+                                <h4>Total</h4>
+
+                                <h4 class="text-success">
+
+                                    ₹{{ total }}
+
+                                </h4>
+
+                            </div>
+
+                            <div class="alert alert-info mt-4">
+
+                                <i class="fa-solid fa-shield-halved"></i>
+
+                                Your payment and personal information are securely protected.
+
+                            </div>
+
+                            <div class="form-check mt-4">
+
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    required
+                                    id="terms"
+                                >
+
+                                <label
+                                    class="form-check-label"
+                                    for="terms"
+                                >
+
+                                    I agree to the Terms & Conditions.
+
+                                </label>
+
+                            </div>
+
+                            <div class="d-grid mt-4">
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-success btn-lg"
+                                >
+
+                                    <i class="fa-solid fa-circle-check"></i>
+
+                                    Place Order
+
+                                </button>
+
+                            </div>
+
+                            <div class="d-grid mt-3">
+
+                                <a
+                                    href="{% url 'cart' %}"
+                                    class="btn btn-outline-secondary"
+                                >
+
+                                    <i class="fa-solid fa-arrow-left"></i>
+
+                                    Back To Cart
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

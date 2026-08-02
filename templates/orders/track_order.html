@@ -1,0 +1,389 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Track Order
+{% endblock %}
+
+{% block content %}
+
+<section class="py-5" style="background:#f8f9fa; min-height:80vh;">
+
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-10">
+
+                <div class="card shadow border-0 rounded-4">
+
+                    <div class="card-body p-5">
+
+                        <div class="text-center mb-5">
+
+                            <h2 class="fw-bold">
+
+                                <i class="fa-solid fa-truck-fast text-warning"></i>
+
+                                Track Your Order
+
+                            </h2>
+
+                            <p class="text-muted">
+
+                                Order #{{ order.id }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="row text-center mb-5">
+
+                            <div class="col-md-4">
+
+                                <h6 class="text-muted">
+
+                                    Order Date
+
+                                </h6>
+
+                                <h5>
+
+                                    {{ order.created_at|date:"d M Y" }}
+
+                                </h5>
+
+                            </div>
+
+                            <div class="col-md-4">
+
+                                <h6 class="text-muted">
+
+                                    Total Amount
+
+                                </h6>
+
+                                <h5 class="text-success">
+
+                                    ₹{{ order.total_price }}
+
+                                </h5>
+
+                            </div>
+
+                            <div class="col-md-4">
+
+                                <h6 class="text-muted">
+
+                                    Current Status
+
+                                </h6>
+
+                                <span class="badge bg-primary fs-6">
+
+                                    {{ order.status }}
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="progress mb-5"
+                             style="height:12px;">
+
+                            {% if order.status == "Pending" %}
+
+                                <div class="progress-bar bg-warning"
+                                     style="width:20%"></div>
+
+                            {% elif order.status == "Confirmed" %}
+
+                                <div class="progress-bar bg-info"
+                                     style="width:40%"></div>
+
+                            {% elif order.status == "Preparing" %}
+
+                                <div class="progress-bar bg-primary"
+                                     style="width:60%"></div>
+
+                            {% elif order.status == "Out For Delivery" %}
+
+                                <div class="progress-bar bg-secondary"
+                                     style="width:80%"></div>
+
+                            {% elif order.status == "Delivered" %}
+
+                                <div class="progress-bar bg-success"
+                                     style="width:100%"></div>
+
+                            {% else %}
+
+                                <div class="progress-bar bg-danger"
+                                     style="width:100%"></div>
+
+                            {% endif %}
+
+                        </div>
+
+                        <div class="row text-center">
+
+                                                        <div class="col">
+
+                                <div class="mb-3">
+
+                                    <i class="fa-solid fa-cart-shopping
+                                    fa-2x
+                                    {% if order.status == 'Pending' or order.status == 'Confirmed' or order.status == 'Preparing' or order.status == 'Out For Delivery' or order.status == 'Delivered' %}
+                                    text-success
+                                    {% else %}
+                                    text-secondary
+                                    {% endif %}"></i>
+
+                                </div>
+
+                                <h6>
+
+                                    Order Placed
+
+                                </h6>
+
+                            </div>
+
+                            <div class="col">
+
+                                <div class="mb-3">
+
+                                    <i class="fa-solid fa-circle-check
+                                    fa-2x
+                                    {% if order.status == 'Confirmed' or order.status == 'Preparing' or order.status == 'Out For Delivery' or order.status == 'Delivered' %}
+                                    text-success
+                                    {% else %}
+                                    text-secondary
+                                    {% endif %}"></i>
+
+                                </div>
+
+                                <h6>
+
+                                    Confirmed
+
+                                </h6>
+
+                            </div>
+
+                            <div class="col">
+
+                                <div class="mb-3">
+
+                                    <i class="fa-solid fa-kitchen-set
+                                    fa-2x
+                                    {% if order.status == 'Preparing' or order.status == 'Out For Delivery' or order.status == 'Delivered' %}
+                                    text-success
+                                    {% else %}
+                                    text-secondary
+                                    {% endif %}"></i>
+
+                                </div>
+
+                                <h6>
+
+                                    Preparing
+
+                                </h6>
+
+                            </div>
+
+                            <div class="col">
+
+                                <div class="mb-3">
+
+                                    <i class="fa-solid fa-motorcycle
+                                    fa-2x
+                                    {% if order.status == 'Out For Delivery' or order.status == 'Delivered' %}
+                                    text-success
+                                    {% else %}
+                                    text-secondary
+                                    {% endif %}"></i>
+
+                                </div>
+
+                                <h6>
+
+                                    Delivery
+
+                                </h6>
+
+                            </div>
+
+                            <div class="col">
+
+                                <div class="mb-3">
+
+                                    <i class="fa-solid fa-house-circle-check
+                                    fa-2x
+                                    {% if order.status == 'Delivered' %}
+                                    text-success
+                                    {% else %}
+                                    text-secondary
+                                    {% endif %}"></i>
+
+                                </div>
+
+                                <h6>
+
+                                    Delivered
+
+                                </h6>
+
+                            </div>
+
+                        </div>
+
+                        <hr class="my-5">
+
+                        <div class="row">
+
+                            <div class="col-lg-6">
+
+                                <h5>
+
+                                    Delivery Address
+
+                                </h5>
+
+                                <p class="text-muted">
+
+                                    {{ order.delivery_address }}
+
+                                </p>
+
+                            </div>
+
+                            <div class="col-lg-6">
+
+                                <h5>
+
+                                    Contact Number
+
+                                </h5>
+
+                                <p class="text-muted">
+
+                                    {{ order.phone }}
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                                                {% if order.status == "Cancelled" %}
+
+                        <div class="alert alert-danger text-center mt-5">
+
+                            <h5 class="mb-2">
+
+                                <i class="fa-solid fa-circle-xmark"></i>
+
+                                This Order Has Been Cancelled
+
+                            </h5>
+
+                            <p class="mb-0">
+
+                                If you have any questions, please contact our support team.
+
+                            </p>
+
+                        </div>
+
+                        {% elif order.status == "Delivered" %}
+
+                        <div class="alert alert-success text-center mt-5">
+
+                            <h5 class="mb-2">
+
+                                <i class="fa-solid fa-circle-check"></i>
+
+                                Order Delivered Successfully
+
+                            </h5>
+
+                            <p class="mb-0">
+
+                                Thank you for ordering with FoodHub. Enjoy your meal!
+
+                            </p>
+
+                        </div>
+
+                        {% else %}
+
+                        <div class="alert alert-info text-center mt-5">
+
+                            <h5 class="mb-2">
+
+                                <i class="fa-solid fa-clock"></i>
+
+                                Your Order Is Being Processed
+
+                            </h5>
+
+                            <p class="mb-0">
+
+                                Our delivery partner will reach you soon.
+
+                            </p>
+
+                        </div>
+
+                        {% endif %}
+
+                        <div class="text-center mt-5">
+
+                            <a href="{% url 'my_orders' %}"
+
+                               class="btn btn-outline-dark me-2">
+
+                                <i class="fa-solid fa-arrow-left"></i>
+
+                                My Orders
+
+                            </a>
+
+                            <a href="{% url 'order_detail' order.id %}"
+
+                               class="btn btn-primary me-2">
+
+                                <i class="fa-solid fa-file-lines"></i>
+
+                                Order Details
+
+                            </a>
+
+                            <a href="{% url 'menu' %}"
+
+                               class="btn btn-warning">
+
+                                <i class="fa-solid fa-utensils"></i>
+
+                                Order Again
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

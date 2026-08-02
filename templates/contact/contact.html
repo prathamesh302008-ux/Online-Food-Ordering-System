@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us - FoodHub{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row g-4">
+        <div class="col-lg-7">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <h2 class="mb-3">Contact Us</h2>
+                    <p class="text-muted">We'd love to hear from you. Send us a message and we'll get back to you soon.</p>
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.non_field_errors }}
+                        {% for field in form %}
+                            <div class="mb-3">
+                                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                                {{ field }}
+                                {% if field.errors %}
+                                    <div class="text-danger small mt-1">{{ field.errors|striptags }}</div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-warning">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-4">
+                    <h4 class="mb-3">Get in Touch</h4>
+                    <p><i class="fas fa-phone me-2"></i> +91 98765 43210</p>
+                    <p><i class="fas fa-envelope me-2"></i> support@foodhub.com</p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i> 123 Food Street, Mumbai, India</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

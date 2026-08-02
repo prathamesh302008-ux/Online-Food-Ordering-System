@@ -1,0 +1,370 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}FoodHub{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero">
+
+    <div class="hero-overlay">
+
+        <div class="container text-center">
+
+            <h1>Delicious Food Delivered Fast</h1>
+
+            <p>
+                Order your favourite meals from top restaurants near you.
+            </p>
+
+            <div class="search-box">
+                <form method="GET" action="{% url 'menu' %}" class="d-flex w-100">
+
+                    <input
+                        type="text"
+                        name="search_query"
+                        placeholder="Search Food..."
+                        class="form-control">
+
+                    <button type="submit">
+                        Search
+                    </button>
+
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- Categories -->
+<section class="categories">
+
+    <div class="container">
+
+        <h2 class="section-title">
+            Popular Categories
+        </h2>
+
+        <div class="category-grid">
+
+            {% for category in categories %}
+
+            <a href="{% url 'category_foods' category.id %}" class="text-decoration-none text-dark">
+
+                <div class="category-card">
+
+                    {% if category.image %}
+                        <img src="{{ category.image.url }}" alt="{{ category.name }}">
+                    {% else %}
+                        <img src="{% static 'images/pizza.jpg' %}" alt="">
+                    {% endif %}
+
+                    <h4>{{ category.name }}</h4>
+
+                </div>
+
+            </a>
+
+            {% empty %}
+
+            <h3 class="text-center">
+                No Categories Available
+            </h3>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- Popular Foods -->
+<section class="popular-food">
+
+    <div class="container">
+
+        <h2 class="section-title">
+            Popular Foods
+        </h2>
+
+        <div class="food-grid">
+
+            {% for food in popular_foods %}
+
+            <div class="food-card">
+
+                {% if food.image %}
+                    <img src="{{ food.image.url }}" alt="{{ food.name }}">
+                {% else %}
+                    <img src="{% static 'images/pizza.jpg' %}" alt="">
+                {% endif %}
+
+                <div class="food-content">
+
+                    <h4>{{ food.name }}</h4>
+
+                    <p>
+                        {{ food.description|truncatewords:12 }}
+                    </p>
+
+                    {% if food.discount_price %}
+                        <h3>
+                            ₹{{ food.discount_price }}
+                        </h3>
+
+                        <del class="text-muted">
+                            ₹{{ food.price }}
+                        </del>
+
+                    {% else %}
+
+                        <h3>
+                            ₹{{ food.price }}
+                        </h3>
+
+                    {% endif %}
+
+                    <div class="d-grid gap-2 mt-3">
+
+                        <a href="{% url 'food_detail' food.id %}"
+                           class="btn btn-outline-dark">
+
+                            View Details
+
+                        </a>
+
+                        <a href="{% url 'add_to_cart' food.id %}"
+                           class="btn btn-warning">
+
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            Add To Cart
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <div class="text-center">
+
+                <h3>No Food Available</h3>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- Why Choose Us -->
+<section class="why-us">
+
+    <div class="container">
+
+        <h2 class="section-title">
+            Why Choose FoodHub?
+        </h2>
+
+        <div class="row">
+
+            <div class="col-md-4 text-center">
+
+                <i class="fa-solid fa-truck-fast fa-3x text-warning mb-3"></i>
+
+                <h4>Fast Delivery</h4>
+
+                <p>
+                    Hot and fresh food delivered to your doorstep in minutes.
+                </p>
+
+            </div>
+
+            <div class="col-md-4 text-center">
+
+                <i class="fa-solid fa-utensils fa-3x text-warning mb-3"></i>
+
+                <h4>Best Restaurants</h4>
+
+                <p>
+                    Order from the best restaurants and enjoy premium quality food.
+                </p>
+
+            </div>
+
+            <div class="col-md-4 text-center">
+
+                <i class="fa-solid fa-credit-card fa-3x text-warning mb-3"></i>
+
+                <h4>Secure Payment</h4>
+
+                <p>
+                    Pay safely using secure online payment methods.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- Featured Restaurants -->
+<section class="restaurants py-5">
+
+    <div class="container">
+
+        <h2 class="section-title">
+            Featured Restaurants
+        </h2>
+
+        <div class="row">
+
+            {% for restaurant in restaurants %}
+
+            <div class="col-lg-4 col-md-6 mb-4">
+
+                <div class="card shadow-sm h-100">
+
+                    {% if restaurant.cover_image %}
+                        <img src="{{ restaurant.cover_image.url }}" class="card-img-top" style="height:220px;object-fit:cover;">
+                    {% else %}
+                        <img src="{% static 'images/pizza.jpg' %}" class="card-img-top" style="height:220px;object-fit:cover;">
+                    {% endif %}
+
+                    <div class="card-body text-center">
+
+                        <h5>{{ restaurant.name }}</h5>
+
+                        <p class="text-muted">
+                            {{ restaurant.address|truncatewords:8 }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <div class="text-center">
+
+                <h4>No Restaurants Available</h4>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- Customer Reviews -->
+<section class="testimonials py-5 bg-light">
+
+    <div class="container">
+
+        <h2 class="section-title">
+            Customer Reviews
+        </h2>
+
+        <div class="row">
+
+            {% for review in testimonials %}
+
+            <div class="col-lg-4 col-md-6 mb-4">
+
+                <div class="card shadow-sm h-100">
+
+                    <div class="card-body">
+
+                        <h5>{{ review.user.username }}</h5>
+
+                        <p class="text-warning">
+
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= review.rating %}
+                                    ★
+                                {% else %}
+                                    ☆
+                                {% endif %}
+                            {% endfor %}
+
+                        </p>
+
+                        <p>
+                            "{{ review.comment }}"
+                        </p>
+
+                        <small class="text-muted">
+
+                            {{ review.food.name }}
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <div class="text-center">
+
+                <h4>No Reviews Yet</h4>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- Download App -->
+<section class="download-app py-5">
+
+    <div class="container text-center">
+
+        <h2>
+            Download Our App
+        </h2>
+
+        <p>
+            Order food anytime, anywhere with our mobile app.
+        </p>
+
+        <a href="#" class="btn btn-warning me-2">
+            <i class="fa-brands fa-google-play"></i>
+            Android
+        </a>
+
+        <a href="#" class="btn btn-light">
+            <i class="fa-brands fa-apple"></i>
+            iPhone
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}
+

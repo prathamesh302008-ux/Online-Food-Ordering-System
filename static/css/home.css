@@ -1,0 +1,258 @@
+/* =========================
+   HERO SECTION
+========================= */
+
+.hero{
+    background:#f8f9fa;
+    min-height:90vh;
+    display:flex;
+    align-items:center;
+}
+
+.hero-overlay{
+    width:100%;
+    min-height:90vh;
+    display:flex;
+    align-items:center;
+    background:transparent;
+}
+
+.hero .container{
+    text-align:center;
+}
+
+.hero h1{
+    font-size:60px;
+    font-weight:700;
+    color:#222;
+    margin-bottom:20px;
+}
+
+.hero p{
+    font-size:22px;
+    color:#555;
+    margin-bottom:35px;
+}
+
+.search-box{
+    max-width:700px;
+    margin:auto;
+}
+
+.search-box form{
+    display:flex;
+    gap:10px;
+}
+
+.search-box input{
+    flex:1;
+    padding:16px;
+    border:1px solid #ddd;
+    border-radius:50px;
+    outline:none;
+    font-size:18px;
+}
+
+.search-box button{
+    background:#ff9800;
+    color:#fff;
+    border:none;
+    padding:16px 35px;
+    border-radius:50px;
+    transition:.3s;
+}
+
+.search-box button:hover{
+    background:#f57c00;
+}
+
+
+/* =========================
+   SECTION TITLE
+========================= */
+
+.section-title{
+    text-align:center;
+    font-size:40px;
+    font-weight:bold;
+    margin-bottom:50px;
+}
+
+
+/* =========================
+   CATEGORY
+========================= */
+
+.categories{
+    padding:90px 0;
+    background:#fff;
+}
+
+.category-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:30px;
+}
+
+.category-card{
+    background:#fff;
+    border-radius:20px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.category-card:hover{
+    transform:translateY(-10px);
+}
+
+.category-card img{
+    width:90px;
+    height:90px;
+    object-fit:contain;
+}
+
+.category-card h4{
+    margin-top:20px;
+}
+
+
+/* =========================
+   FOOD
+========================= */
+
+.popular-food{
+    padding:90px 0;
+    background:#f8f9fa;
+}
+
+.food-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:35px;
+}
+
+.food-card{
+    background:#fff;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,.1);
+    transition:.3s;
+}
+
+.food-card:hover{
+    transform:translateY(-10px);
+}
+
+.food-card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
+
+.food-content{
+    padding:25px;
+}
+
+.food-content h4{
+    font-size:24px;
+    margin-bottom:10px;
+}
+
+.food-content p{
+    color:#666;
+}
+
+.food-content h3{
+    color:#ff9800;
+}
+
+
+/* =========================
+   WHY US
+========================= */
+
+.why-us{
+    padding:90px 0;
+    background:#fff;
+}
+
+
+/* =========================
+   RESTAURANTS
+========================= */
+
+.restaurants{
+    background:#f8f9fa;
+}
+
+
+/* =========================
+   TESTIMONIALS
+========================= */
+
+.testimonials{
+    background:#fff;
+}
+
+
+/* =========================
+   DOWNLOAD APP
+========================= */
+
+.download-app{
+    background:#f8f9fa;
+    color:#222;
+    padding:90px 0;
+}
+
+.download-app h2{
+    font-size:45px;
+    margin-bottom:20px;
+}
+
+.download-app p{
+    font-size:20px;
+    color:#666;
+    margin-bottom:30px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+.hero{
+    min-height:70vh;
+}
+
+.hero-overlay{
+    min-height:70vh;
+}
+
+.hero h1{
+    font-size:36px;
+}
+
+.hero p{
+    font-size:18px;
+}
+
+.search-box form{
+    flex-direction:column;
+}
+
+.search-box input,
+.search-box button{
+    width:100%;
+    border-radius:12px;
+}
+
+.section-title{
+    font-size:30px;
+}
+
+}
